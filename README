@@ -1,0 +1,8 @@
+To make this project follow the tutorial at http://themes.gohugo.io/academic/.
+
+    hugo new site new-website
+    git subtree add --squash --prefix themes/academic https://github.com/gcushen/hugo-academic.git master
+
+
+Now copy all the template files into place.
+    cp -av themes/academic/exampleSite/* .
