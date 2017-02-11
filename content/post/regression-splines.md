@@ -35,8 +35,8 @@ scatter!(x,yn)
 
 
 
-To do this we will use cubic splines. The spline basis with knots at `$ \xi_i  $` is
-given by `$ (x-\xi_i)^3_i $` . This can be expressed in terms of so-called B-splines
+To do this we will use cubic splines. The spline basis with knots at $ \xi_i  $ is
+given by $ (x-\xi_i)^3_i $ . This can be expressed in terms of so-called B-splines
 by the formula, 
 
 <div>$$ p(x) = \sum_i c_i B_{i,3}(x). $$</div>
