@@ -1,3 +1,9 @@
++++
+title = "Howto"
++++
+
+- [Export of Howto.org](Howto): this contains many tips for a variety of different software tools.
+
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
