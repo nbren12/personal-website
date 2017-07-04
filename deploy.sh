@@ -11,5 +11,5 @@ if [ -d $HOME/public_html/ ]
 then
     rsync  -avz --delete public/ ~/public_html
 else
-    rsync  -avz --delete public/ desk:~/public_html
+    rsync  -avz --delete public/ cims:~/public_html
 fi
