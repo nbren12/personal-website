@@ -20,12 +20,12 @@ defaultContentLanguageInSubdir = false
 
 [params]
   name = "Noah Brenowitz"
-  role = "PhD Candidate in Atmosphere Ocean Science and Mathematics"
-  organization = "Courant Institute of Mathematical Sciences, New York University"
+  role = "Research Associate"
+  organization = "University of Washington"
   organization_url = ""
   avatar = "portrait.jpg"
   email = "noah@cims.nyu.edu"
-  address = "Warren Weaver Hall 908"
+  address = ""
   office_hours = ""
   phone = ""
   skype = ""
@@ -140,7 +140,7 @@ defaultContentLanguageInSubdir = false
   [[params.social]]
     icon = "github"
     icon_pack = "fa"
-    link = "http://github.com/nbrenow"
+    link = "http://github.com/nbren12"
 
 
 # Navigation Links

@@ -24,12 +24,22 @@ weight = 1
   course = "BS in Mathematics and Statistics"
   institution = "New York University"
   year = 2011
+
+[[education.courses]]
+  course = "Ph.D. in Atmosphere-Ocean Science and Mathematics"
+  institution = "New York University"
+  year = 2017
  
 +++
 
 # Biography
 
-Noah Brenowitz is a fifth year graduate student at the Courant Institute, working with [Andrew Majda](http://www.math.nyu.edu/faculty/majda/). His research interests involve combining insights from idealized models of the atmosphere and data analysis techniques to improve scientific understanding of organized tropical convection.
+Noah Brenowitz graduated with a Ph.D. from the Courant Institute in May 2017,
+and his advisor was [Andrew Majda](http://www.math.nyu.edu/faculty/majda/). He
+is starting a post-doctoral fellowship at the University of Washington in
+August 2017. His research interests combine insights from idealized models of
+the atmosphere and data analysis techniques to improve scientific understanding
+of organized tropical convection.
 
 His Curriculum Vitae is available [here](./noah_brenowitz_cv.pdf).
 
