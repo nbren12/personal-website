@@ -9,7 +9,7 @@ find public/ -type f -exec chmod 0644 {} +
 
 if [ -d $HOME/public_html/ ]
 then
-    rsync  -avz --delete public/ ~/public_html
+    rsync  -avz --delete public/ ~/public_html/personal
 else
-    rsync  -avz --delete public/ cims:~/public_html
+    rsync  -avz --delete public/ olympus:~/public_html/personal
 fi

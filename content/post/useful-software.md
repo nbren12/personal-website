@@ -29,3 +29,4 @@ I use a lot of different software tools in the course of my research, so I need 
 
 - Alfred: a better version of the Mac OS spotlight application
 - Spectacle: keyboard shortcuts for moving windows around.
+- [dash](https://kapeli.com/dash): offline documentation browser

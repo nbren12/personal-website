@@ -36,10 +36,10 @@ weight = 1
 
 Noah Brenowitz graduated with a Ph.D. from the Courant Institute in May 2017,
 and his advisor was [Andrew Majda](http://www.math.nyu.edu/faculty/majda/). He
-is starting a post-doctoral fellowship at the University of Washington in
-August 2017. His research interests combine insights from idealized models of
-the atmosphere and data analysis techniques to improve scientific understanding
-of organized tropical convection.
+is started a post-doctoral fellowship at the University of Washington in
+August 2017. His research is focused on applying tools from machine learning
+improve the treatment of rain/cloud processes in global climate models.
+
 
 His Curriculum Vitae is available [here](./noah_brenowitz_cv.pdf).
 

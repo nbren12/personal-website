@@ -1,4 +1,4 @@
-baseurl = "http://cims.nyu.edu/~noah/"
+baseurl = "https://atmos.washington.edu/~nbren12/personal/"
 title = "Noah Brenowitz"
 copyright = "&copy; 2016 Noah D. Brenowitz"
 theme = "academic"
@@ -24,7 +24,7 @@ defaultContentLanguageInSubdir = false
   organization = "University of Washington"
   organization_url = ""
   avatar = "portrait.jpg"
-  email = "noah@cims.nyu.edu"
+  email = "nbren12@atmos.uw.edu"
   address = ""
   office_hours = ""
   phone = ""
@@ -76,7 +76,7 @@ defaultContentLanguageInSubdir = false
   #   For more info on the highlighting options, see:
   #   https://gcushen.github.io/hugo-academic-demo/post/writing-markdown-latex/#highlighting-options
   highlight = true
-  highlight_languages = ["julia", "fortran"]
+  highlight_languages = ["julia", "fortran", "python"]
   highlight_style = "ascetic"
   # highlight_version = "9.9.0"
 
