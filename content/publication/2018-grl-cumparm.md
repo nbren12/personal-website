@@ -8,6 +8,7 @@ title = "Prognostic validation of a neural network unified physics parameterizat
 url_project = ""
 image_preview = ""
 url_preprint = "http://doi.org/10.17605/OSF.IO/EU3AX"
+url_pdf = "https://eartharxiv.org/eu3ax/download"
 image = ""
 highlight = true
 math = false
