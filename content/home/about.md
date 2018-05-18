@@ -43,5 +43,5 @@ improve the treatment of rain/cloud processes in global climate models.
 
 His Curriculum Vitae is available [here](./noah_brenowitz_cv.pdf).
 
-[Research Wiki](../dokuwiki).
+[Research Wiki](/wiki).
 
