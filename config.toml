@@ -1,4 +1,4 @@
-baseurl = "https://atmos.washington.edu/~nbren12/personal/"
+baseurl = "http://www.noahbrenowitz.com/"
 title = "Noah Brenowitz"
 copyright = "&copy; 2016 Noah D. Brenowitz"
 theme = "academic"
@@ -101,7 +101,8 @@ defaultContentLanguageInSubdir = false
     'Work in progress',  # 3
     'Technical report',  # 4
     'Book',  # 5
-    'Book chapter'  # 6
+    'Book chapter',  # 6
+    'Pre-prints',  # 7
   ]
 
   # Social/Academic Networking
