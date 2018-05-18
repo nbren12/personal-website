@@ -1,1 +1,1 @@
-/wiki          http://35.203.179.97/dokuwiki   200
+/wiki/*          http://35.203.179.97/dokuwiki/:splat   200
