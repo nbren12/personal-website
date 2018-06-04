@@ -1,18 +1,17 @@
 +++
-publication_types = ["7"]
+publication_types = ["2"]
 abstract_short = ""
 publication_short = ""
-publication = "EarthArXiv"
+publication = "Geophysical Research Letters"
 authors = ["Noah D. Brenowitz", "Cristopher S. Bretherton"]
 title = "Prognostic validation of a neural network unified physics parameterization"
 url_project = ""
 image_preview = ""
 url_preprint = "http://doi.org/10.17605/OSF.IO/EU3AX"
-url_pdf = "https://eartharxiv.org/eu3ax/download"
 image = ""
 highlight = true
 math = false
-date = "2018-05-17"
+date = "2018-06-04"
 url_video = ""
 selected = true
 url_dataset = ""
