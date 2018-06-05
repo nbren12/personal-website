@@ -16,20 +16,7 @@ url_video = ""
 selected = true
 url_dataset = ""
 url_code = ""
-abstract = "Weather and climate models approximate diabatic and sub-grid-scale
-processes in terms of grid-scale variables using parameterizations. Current
-parameterizations are designed by humans based on physical understanding,
-observations and process modeling. As a result, they are numerically efficient
-and interpretable, but potentially over-simplified. However, the advent of
-global high-resolution simulations and observations enables a more robust
-approach based on machine learning. In this letter, a neural network (NN) based
-parameterization is trained using a near-global aquaplanet simulation with a 4
-km resolution (NG-Aqua). The NN predicts the apparent sources of heat and
-moisture averaged onto (160 km)^2 grid boxes. A numerically stable scheme is
-obtained by minimizing the prediction error over multiple timesteps rather than
-single one. In prognostic single column model tests, this scheme matches both
-the fluctuations and equilibrium of NG-Aqua simulation better than the
-Community Atmosphere Model does."
+abstract = "Weather and climate models approximate diabatic and sub-grid-scale processes in terms of grid-scale variables using parameterizations. Current parameterizations are designed by humans based on physical understanding, observations and process modeling. As a result, they are numerically efficient and interpretable, but potentially over-simplified. However, the advent of global high-resolution simulations and observations enables a more robust approach based on machine learning. In this letter, a neural network (NN) based parameterization is trained using a near-global aquaplanet simulation with a 4 km resolution (NG-Aqua). The NN predicts the apparent sources of heat and moisture averaged onto (160 km)^2 grid boxes. A numerically stable scheme is obtained by minimizing the prediction error over multiple timesteps rather than single one. In prognostic single column model tests, this scheme matches both the fluctuations and equilibrium of NG-Aqua simulation better than the Community Atmosphere Model does."
 url_slides = ""
 +++
 
