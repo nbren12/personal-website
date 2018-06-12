@@ -39,5 +39,5 @@ Noah Brenowitz graduated with a Ph.D. from the Courant Institute in May 2017, an
 
 His Curriculum Vitae is available [here](./noah_brenowitz_cv.pdf).
 
-[Research Wiki](http://wiki.noahbrenowitz.com/dokuwiki/doku.php).
+[Research Wiki](http://wiki.noahbrenowitz.com/doku.php).
 
