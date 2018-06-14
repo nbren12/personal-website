@@ -7,6 +7,7 @@ authors = ["Noah D. Brenowitz", "Cristopher S. Bretherton"]
 title = "Prognostic validation of a neural network unified physics parameterization"
 url_project = ""
 image_preview = ""
+url_pdf  = "https://doi.org/10.1029/2018GL078510"
 url_preprint = "http://doi.org/10.17605/OSF.IO/EU3AX"
 image = ""
 highlight = true
