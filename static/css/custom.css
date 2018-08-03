@@ -3,3 +3,11 @@ code.has-jax {font: inherit;
               background: inherit;
               border: inherit;
               color: #515151;}
+
+img, video {
+    height: auto;
+    max-width: 40em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
