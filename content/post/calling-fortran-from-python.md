@@ -105,7 +105,7 @@ If all worked well, we can run the executable using
 
 Hopefully, this clearly demonstrates how to call python from Fortran using CFFI without having to write any C code---except for interface declaration in the string `header`. I will now try to flesh out this basic introduction by answering a series of FAQ style questions.
 
-## Do I have to write all my python code in the string `header`
+## Do I have to write all my python code in the string `header`?
 
 No, that would be very annoying. You can easily define some python code in a separate python module (e.g. `my_module.py`), which you can the import at the top of the `module` string. For example, `builder.py` can be modified to show
 
@@ -212,7 +212,7 @@ end program call_python
 
 At this point, we have demonstrated the basic building blocks of embedding python within fortran and passing numerical arrays to/from fortran, however there are some key inconveniences.
 
-## Do I really have to define the signature of any python function in three different places
+## Do I really have to define the signature of any python function in three different places?
 
 Any python function that we want to expose to fortran must be defined in 3 places. First, its C header declaration must be put in `header.h`. Second, its implementation must be defined in the `module` string of `builder.py`---or in an external module as described above. Finally, the fortran code must contain an `interface` block defining the subroutine. This can make it very challenging to change the signature of a python function. For instance, suppose we have written a function
 ```python
