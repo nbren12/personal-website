@@ -31,9 +31,10 @@ There are three ways likely ways to possible ways python within a Fortran code:
 2. Cython. Cython is typically used to call C from python, but it is possible to use the other way around.
 3. CFFI. This python package has a very convenient feature for embedding python and even devotes a whole page in [their documentation](https://cffi.readthedocs.io/en/latest/embedding.html) describing it.
 
-Regardless of which method is chosen, the user will need to link the Fortran executable to the system python library, for instance by adding a `-lpython3.6` to the Fortran model's Makefile. Without further ado here is a hello world example of calling python from a Fortran program. The Fortran code for this hello world example should be saved in file `test.f90`:
+Regardless of which method is chosen, the user will need to link the Fortran executable to the system python library, for instance by adding a `-lpython3.6` to the Fortran model's Makefile. Without further ado here is a hello world example of calling python from a Fortran program. The Fortran code for this hello world example should be saved in the file `test.f90`:
 
 ```fortran
+! test.f90
 program call_python
   use, intrinsic :: iso_c_binding
   implicit none
@@ -47,7 +48,7 @@ program call_python
 end program call_python
 ```
 
-Looking at this code, we can see that it first imports the `iso_c_binding` intrinsic module defined in Fortran 2003 for interoperability with C. While we do not actually need to write any C code when using CFFI, CFFI generates interfaces which c-style binding. The next lines define an interface for a C-function `hello_world`, which could have been implemented in C, but which we will instead use python+CFFI for. Finally, this function is called.
+Looking at this code, we can see that it first imports the `iso_c_binding` intrinsic module defined in Fortran 2003 for interoperability with C. While we do not actually need to write any C code when using CFFI, CFFI generates interfaces which c-style binding. The next lines define an interface for a C-function `hello_world`, which could have been implemented in C, but we will instead use python+CFFI. Finally, this function is called.
 
 To implement `hello_world` we build off of CFFI's notation and save the following code to `builder.py`. This script will be used to generate a dynamic library that we can link our Fortran program against:
 
@@ -81,7 +82,7 @@ ffibuilder.embedding_init_code(module)
 ffibuilder.compile(target="libplugin.dylib", verbose=True)
 ```
 
-At the top of this module we import the `cffi` package and declare an Foreign-Function-Interface (FFI) object. This may seem contrived, but it is just coffee's way of doing things.
+At the top of this module we import the `cffi` package and declare an Foreign-Function-Interface (FFI) object. This may seem contrived, but it is just CFFI's way of doing things.
 Next, the `header` string contains a `.h` style header definition of the interface for the function that needs to be called, and the `module` string contains the actually python implementation of this function. 
 As we see, the decorator `@ffi.def_extern` is used to mark the hello_world function. The `my_plugin` import at the top of `header` is used to access the `ffi` object, which in addition to the having the `def_extern` decorator, also provides methods for dealing with C types, pointers, and etc.
 Then, `ffibuilder.embedding_api(header)` defines the API that the produced library will have, while `embedding_init_code` defines the python code it will contain.
