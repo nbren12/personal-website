@@ -1,75 +1,81 @@
----
-# Display name
-name: Nelson Bighetti
++++
+# About/Biography widget.
 
-# Username (this should match the folder name)
-authors:
-- admin
+authors = ["admin"]
+superuser = true
 
-# Is this the primary user of the site?
-superuser: true
+date = "2016-04-20T00:00:00"
+draft = false
 
-# Role/position
-role: Professor of Artificial Intelligence
+widget = "about"
 
-# Organizations/Affiliations
-organizations:
-- name: Stanford University
-  url: ""
+# Order that this section will appear in.
+weight = 1
 
-# Short bio (displayed in user profile at end of posts)
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+# List your academic interests.
+interests = [
+    "Atmospheric dynamics",
+    "Tropical moist convection",
+    "Machine learning",
+    "High-resolution numerical modeling"
+]
 
-interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+# List your qualifications (such as academic degrees).
 
-education:
-  courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
 
-# Social/Academic Networking
-# For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
-#   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
-#   form "mailto:your-email@example.com" or "#contact" for contact widget.
-social:
-- icon: envelope
-  icon_pack: fas
-  link: '#contact'  # For a direct email link, use "mailto:test@example.org".
-- icon: twitter
-  icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
-- icon: google-scholar
-  icon_pack: ai
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
-- icon: github
-  icon_pack: fab
-  link: https://github.com/gcushen
-# Link to a PDF of your resume/CV from the About widget.
-# To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.  
-# - icon: cv
-#   icon_pack: ai
-#   link: files/cv.pdf
+[[education.courses]]
+  course = "Ph.D. in Atmosphere-Ocean Science and Mathematics"
+  institution = "New York University"
+  year = 2017
 
-# Enter email to display Gravatar (if Gravatar enabled in Config)
-email: ""
-  
-# Organizational groups that you belong to (for People widget)
-#   Set this to `[]` or comment out if you are not using People widget.  
-user_groups:
-- Researchers
-- Visitors
----
+[[education.courses]]
+  course = "BS in Mathematics and Statistics"
+  institution = "New York University"
+  year = 2011
+ 
+email = "noahb@vulcan.com"
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+role = "Sr. Machine Learning Scientist"
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate. 
+[[organizations]]
+name = "Climate Modeling | Vulcan Inc."
+url = "https://www.vulcan.com"
+
+[[social]]
+icon = "envelope"
+icon_pack = "fas"
+link = "mailto:noahb@vulcan.com"
+
+[[social]]
+icon = "twitter"
+icon_pack = "fab"
+link = "https://twitter.com/noahbrenowitz"
+
+[[social]]
+icon = "google-scholar"
+icon_pack = "ai"
+link = "https://scholar.google.com/citations?user=oWTLDhwAAAAJ&hl"
+
+[[social]]
+icon = "github"
+icon_pack = "fab"
+link = "https://github.com/nbren12"
+
+[[social]]
+icon = "cv"
+icon_pack = "ai"
+link = "files/cv.pdf"
++++
+
+Noah Brenowitz is a Senior Machine Learning Scientist for Climate Modeling at Vulcan Inc.. He was a Moore/Sloan & WRF Innovation in Data Science Postdoctoral Fellow at the University of Washington (UW) and is jointly mentored by Christopher Bretherton in Atmospheric Science and Nathan Kutz in Applied Mathematics. In 2011, he received his BS degree in Statistics from the Stern School of Business at New York University (NYU). After one year as a postbaccalaureate trainee at the National Institutes of Health (NIH) working on functional MRI, he began a Ph.D. in Atmosphere-ocean Science and Mathematics at NYUs Courant Institute of Mathematics with Andrew Majda as his advisor and recently graduated in May 2017.
+
+Noah's research lies at the intersection of applied mathematics, machine learning, and atmospheric science. He is interested in applying machine learning techniques to improve the representation of sub-grid-scale processes in coarse resolution atmospheric models. In addition, he also studies the fundamental dynamics behind the organization of large-scale moist convective processes in the tropics.
+
+
+
+His Curriculum Vitae is available [here](files/cv.pdf).
+
+[Research Wiki](http://wiki.noahbrenowitz.com/doku.php).
+
+[Research Reports](https://atmos.washington.edu/~nbren12/reports/)
+
