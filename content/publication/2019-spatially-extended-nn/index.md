@@ -1,6 +1,6 @@
 +++
 title = "Spatially Extended Tests of a Neural Network Parametrization Trained by Coarse-graining"
-date = 2019-04-08T19:07:01-07:00
+date = 2019-07-29
 draft = false
 
 # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
@@ -15,11 +15,11 @@ authors = ["Noah D Brenowitz", "Christopher S. Bretherton"]
 # 4 = Report
 # 5 = Book
 # 6 = Book section
-publication_types = ["3"]
+publication_types = ["2"]
 
 # Publication name and optional abbreviated version.
-publication = "arXiv"
-publication_short = ""
+publication = "Journal of Advances in Modeling Earth Systems"
+publication_short = "JAMES"
 
 # Abstract and optional shortened version.
 abstract = "General circulation models (GCMs) typically have a grid size of 25--200 km. Parametrizations are used to represent diabatic processes such as radiative transfer and cloud microphysics and account for sub-grid-scale motions and variability. Unlike traditional approaches, neural networks (NNs) can readily exploit recent observational datasets and global cloud-system resolving model (CRM) simulations to learn subgrid variability. This article describes an NN parametrization trained by coarse-graining a near-global CRM simulation with a 4~km horizontal grid spacing. The NN predicts the residual heating and moistening averaged over (160 km)^2 grid boxes as a function of the coarse-resolution fields within the same atmospheric column. This NN is coupled to the dynamical core of a GCM with the same 160 km resolution. A recent study described how to train such an NN to be numerically stable when coupled to specified time-evolving advective forcings in a single column model, but feedbacks between NN and GCM components cause spatially-extended simulations to crash within a few days. Analyzing the linearized response of such an NN reveals that it learns to exploit a strong synchrony between precipitation and the atmospheric state above 10 km. Removing these variables from the NN's inputs stabilizes the coupled simulations, which predict the future state more accurately than a coarse-resolution simulation without any parametrizations of sub-grid-scale variability, although the mean state slowly drifts."
@@ -43,7 +43,7 @@ projects = []
 tags = []
 
 # Links (optional).
-url_pdf = ""
+url_pdf = "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2019MS001711"
 url_preprint = "https://arxiv.org/abs/1904.03327"
 url_code = "https://github.com/nbren12/uwnet/tree/v0.7"
 url_dataset = "https://doi.org/10.5281/zenodo.2621638"
