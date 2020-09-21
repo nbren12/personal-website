@@ -174,7 +174,7 @@ import my_module
 
 @ffi.def_extern()
 def add_one(a_ptr)
-    a = my_module.asarray(a_ptr)
+    a = my_module.asarray(ffi, a_ptr, shape=(10,))
     a[:] += 1
 """
 ```
