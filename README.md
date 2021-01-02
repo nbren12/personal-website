@@ -33,6 +33,14 @@ Then [personalize your new site](https://sourcethemes.com/academic/docs/get-star
 * **[Academic Admin](https://github.com/sourcethemes/academic-admin):** An admin tool to import publications from BibTeX or import assets for an offline site
 * **[Academic Scripts](https://github.com/sourcethemes/academic-scripts):** Scripts to help migrate content to new versions of Academic
 
+## Troubleshooting
+
+### Template files not found
+
+You need to get the themes/academic submodule:
+
+    git submodule update --init
+
 ## License
 
 Copyright 2017-present [George Cushen](https://georgecushen.com).
