@@ -88,7 +88,7 @@ most application developers one additional power tool. They can simply *freeze* 
 pinning or locking the versions of those libraries used. [^1]
 The remainder of this blog suggests some tools you can use to do this. 
 
-## Features Managing Dependencies
+## Features for Managing Dependencies
 
 The goal of dependency pinning is to be able to determinstically recreate the software environment of an application from a text file (e.g. requirements.txt) in version control.
 Dependency management systems also allow need to allow users to update
@@ -111,21 +111,66 @@ will install numpy and all it's dependencies.
 In many cases, a single package manager might not be enough, so one will need to use the system package manager to install tools like compilers, and `pip` to install python packages. This is the problem `conda` is trying to solve, but it is not immune itself since there are still packages on PyPi that do not have anaconda packages.
 Therefore, interoperability with `pip` is important.
 
-### Stable Distributions
-
-Clearly choosing compatible versions for a set of libraries (and all their dependencies) is hard work.
-We are lucky that numerous organizations do this hard work for us by releasing and maintaining distributions of packages that are tested to work together. For example, the [Debian Linux Distribution](https://www.debian.org/) has thousands of python packages available and only issues [stable releases](https://www.debian.org/releases/stable/) every few years that only have small security patches. Therefore, running `apt-get install python3-xarray python3-sklearn` on a Debian 10.7 computer will install a nearly identical set packages until the debian project stops hosting the packages in 20 years or so[^3].
-Similarly, you can install specific versions of the [Anaconda Python Distribution](https://repo.anaconda.com/archive/).
-
 ### Dependency Resolution
 
-pip freeze
-pipenv, poetry, etc
+Dependency resolution involves installing all the dependencees required by a
+given package. An even more complicated problem occurs when two packages depend
+on the same library. What version of this library should they choose? Some
+package managers put great care
+into solving the dependency graph such that all version constraints advertised
+by any package in the installed set are satisfied. For instance, what if
+package A requires package Z of version >= 1.1 and package B requires Z of
+version <=2, then the tool will install any version between 1.1 and 2. This
+feature captures some bugs and can help ensure that the APIs used are
+consistent, which is why package managers like new versions of pip[^4] and conda include version
+constraint resolvers.
+
+Of course, sometimes packages lie, and fail to work with every version of a
+dependency that they claim to. Therefore, the process of satisfying all the
+version constraints as at best a heuristic that frequently works. Someone needs
+to actually test that this set of installed versions works. You can do this via
+your own tests, but we are lucky that numerous organizations do this hard work
+for us by releasing and maintaining distributions of packages that are tested
+to work together. For example, the [Debian Linux
+Distribution](https://www.debian.org/) has thousands of python packages
+available and only issues [stable
+releases](https://www.debian.org/releases/stable/) every few years that only
+have small security patches. Therefore, running `apt-get install python3-xarray
+python3-sklearn` on a Debian 10.7 computer will install a nearly identical set
+packages until the debian project stops hosting the packages in 20 years or
+so[^3].  Similarly, you can install specific versions of the [Anaconda Python
+Distribution](https://repo.anaconda.com/archive/).
+
+Most tools have the ability to print out a list of installed packages and their
+versions. For instance, one can call `pip freeze`, `conda env export`, or `apt
+list --installed` depend on your system.  Saving the output of these commands
+to a textfile, checked into version control, then ensures that our version
+control system contains a comprehensive description of our installed environment,
+which easily allows us to rollback changes or find which commits introduce
+breaking changes (e.g. using git bisect).
+
+#### Abstract vs concrete dependencies
+
+Recent trends in python packaging tools point towards separating concrete and
+abstract dependencies in different text files under version control. Abstract
+dependencies are loose requirements like `numpy >=0.5`, which don't include
+specific version numbers or dependencies. These are easy to update, but cannot
+be used to determinstically recreated a software environment. New tools like
+pipenv, poetry, or pip-tools use dependency resolution to compile abstract
+dependencies into comprehesive lists of dependencies with specific versions,
+known as a "lock" file. The idea that the lock file gives reproducibility, and
+the abstract dependencies give updateability.
 
 ### Isolation
 
-Docker, virtualenv, etc
-
+Tools used to isolate installed software environments are increasingly bundled
+with package managers. Isolating dependencies makes it easier to distribute
+software and prevents one applications dependency problems from infecting a
+whole computer. For python-only projects, virtualenvs are the standard way to
+create such isolated environments. Anaconda extends the virtualenv concept to
+include non-python dependencies while docker containers and virtual machines
+create entirely isolated computers-within-a computer. Again, the main goal is
+quarantine an application's dependencies from the broader system.
 
 ## Putting it all together
 
@@ -225,9 +270,11 @@ I prefer composable tools, which don't bake in a specific directory structure or
       set of packages maintained on their platform by other trusted people
       (e.g. Debian/Ubuntu developers or your super computers sysadmin).
 
+[^1]: For some reason, I was not really aware of this until recently. I think part of the reason is that many of us learn software development best practices by emulating what popular libraries like xarray and scikit-learn do, and these libraries don't pin their dependencies for the reasons discussed above.
+
 [^2]: This system likely won't be truly deterministic in the sense that 
       it is bit-for-bit identical, but any changes should be non-breaking and minimal.
 
-[^1]: For some reason, I was not really aware of this until recently. I think part of the reason is that many of us learn software development best practices by emulating what popular libraries like xarray and scikit-learn do, and these libraries don't pin their dependencies for the reasons discussed above.
-
 [^3]: As of Jan 14, 2021, binaries from Debian Bo (1.3) released in 1997 are still being [archived](https://www.debian.org/distrib/archive).
+
+[^4]: Included as of v40.3
