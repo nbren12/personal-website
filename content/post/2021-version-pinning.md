@@ -1,7 +1,7 @@
 ---
 # Documentation: https://sourcethemes.com/academic/docs/managing-content/
 
-title: "Managing dependencies for reproducible scientific code"
+title: "Managing dependencies for reproducible (scientific) software"
 subtitle: "Fear the dependencies of your dependencies"
 summary: ""
 authors: []
@@ -28,7 +28,12 @@ image:
 projects: []
 ---
 
-# Text
+This post describes how to make your software development (and science)
+easily reproducible, and therefore save you time and reduce stress. I use
+motivating examples from the scientific python world, but the principles
+apply to any kind of software development. I also mention many specific tools
+(I love learning new tools), but I try to give appropriate context and
+stress common themes.
 
 Like many newer computing platforms (e.g. Web 2.0), the scientific python ecosystem is powerful, but there is constant churn in the underyling code ecosystem.
 Marquee packages like [pandas] and [xarray] are constantly being improved---and sometimes broken.
@@ -47,11 +52,17 @@ I know I didn't until a few months ago.
 Also, experienced python users are often more likely to seek out bleeding-edge software.
 Hopefully this motivates you to develop a strategy for managing dependencies in your software projects.
 
+
 You should especially fear the dependencies of your dependencies, known as
 *transitive dependencies*.
 For instance, we were using the [scikit-image] library for simple image processing for months succesfully, when suddenly our code broke because a dependency of scikit-image called "pooch" issued a buggy release.
 Seriously, what is pooch?
 Perhaps the most famous example is the chaos that ensued when a disgruntled developer removed [a trivial 17-line function](https://arstechnica.com/information-technology/2016/03/rage-quit-coder-unpublished-17-lines-of-javascript-and-broke-the-internet/) from javascripts package manager, breaking crucial web infrastructure like Facebook's React.
+Dependencies also have copyright implications. If you depend on open-source
+code released with a copyleft license like
+[GPL](https://www.gnu.org/licenses/gpl-3.0.en.html) you may not be able to release your software with a more permissive license.[^6]
+Additional dependencies also decreases the security of your code by
+increasing "surface-area" open to attack.
 Clearly dependency management needs to account for transitive dependencies.
 
 Any software project can be made more robust by
@@ -161,21 +172,136 @@ dependencies into comprehesive lists of dependencies with specific versions,
 known as a "lock" file. The idea that the lock file gives reproducibility, and
 the abstract dependencies give updateability.
 
-### Isolation
+### Environment Management
 
-Tools used to isolate installed software environments are increasingly bundled
-with package managers. Isolating dependencies makes it easier to distribute
-software and prevents one applications dependency problems from infecting a
-whole computer. For python-only projects, virtualenvs are the standard way to
-create such isolated environments. Anaconda extends the virtualenv concept to
-include non-python dependencies while docker containers and virtual machines
-create entirely isolated computers-within-a computer. Again, the main goal is
-quarantine an application's dependencies from the broader system.
+Dependencies are even harder to manage because changes to a computers
+installed environment cannot be easily rolled-back if something breaks. In
+other words, the software environment of computer has "state" that cannot
+easily reproduced from a short text file, and without care, your computer
+will become a snowflake---beautiful, but unique and impossible to recreate.
 
-## Putting it all together
+The state typically takes a few forms:
+- The contents of working memory (RAM) (e.g. environmental variables like PATH)
+- Contents of the hard drive (e.g. installed libraries and applications)
+- Services over TCP ports (e.g. running a database or web server).
+- Connections with the operating system kernel
 
-I prefer composable tools, which don't bake in a specific directory structure or workflow.
+Restarting a computer is such a powerful debugging tool because it removes a
+large amount of state stored in the RAM of your computer. However, it is not
+easy to rollback modifications to persistent state such as the contents of
+`/usr/bin`. For this reason, tools that prevent the accumulation of this state are
+increasingly bundled with package managers. 
 
+Generally, these take two approaches. The more common approach isolates the
+installed environment of an application to a sub-environment which can easily
+be deleted and re-built if something goes wrong. For python-only projects,
+[virtualenvs] are the standard way to create such isolated environments.
+[conda] extends the virtualenv concept to include non-python dependencies
+while docker containers[^5] and virtual machines create entirely isolated
+computers-within-a computer.
+
+There are several tools for doing this which have varying degrees of isolation. In rough order:
+- Language specific tools like  only isolate python dependencies.
+- [conda] environments extend virtualenvs but also handle many non-python libraries.
+- Linux chroots and docker containers cannot see the file system or
+environmental variables of the broaders system by default, but use the same kernel as the host operating system.[^5]
+- Virtual Machines go a step further and even isolate operating system.
+Generally speaking, the more isolated a sub-environment it is, the more
+laborious it is to use and virtualenvs are very simple. 
+- Another machine entirely
+As you can see, the earlier items in this list are easier to use. Taken to
+extreme, you might need to buy a new super-computer and rehire the
+now-retired sysadmin to replicate your collaborators' environment. 
+
+"Functional" package managers like [Nix] prevent the accumulation of system
+state, by making it "immutable". For instance, instead of installing `rsync`
+to `/usr/bin/`, Nix will install it to a read-only directory
+`/nix/store/syapqz1bwxgicwbd6dkcdlxfqn8g6din-rsync-3.1.3/bin`. The random
+string of characters is a hash of all the inputs required to build `rsync`,
+which gaurantees that this location will be unique. For example, a new
+version of rsync will result in a different hash and new installation
+location.
+
+Environmental Management tools are only useful if they can be readily and
+easily recreated. When did you last do this? If it was a long time ago, your
+development is probably not very reproducible. Ideally, this should happen
+automatically on a regular basis. You could use continuous integration or
+simply delete your local conda environment on a weekly basis. For this to be
+convenient, you will need to automate installation procedure by writing some text files that describe and build your software environment.
+
+It is easier to do this when you use tools like docker that couple
+environment creating process with the application build/testing cycle. For
+pure python projects, I recommend testing your project regularly with
+[tox](https://tox.readthedocs.io/en/latest/) forces you to run your tests
+inside of a python virtualenv.
+
+## A "tar"-ible decision
+
+If you can, choose your dependencies so that you can use the simplest
+dependency management tools.
+This often means using programming language libraries rather than command
+line utilities or shell scripts. For example, suppose part of your python
+software project needs to extract files from a tar archive. Since most of us
+are most familiar with the
+`tar` command line tool we would often start a script like this:
+```
+import subprocess
+
+subprocess.check_call(['tar', 'xf', "--exclude", "unwanted/data", "my_data])
+```
+However, now your program depends on the system tool "tar", which [differs on Linux and Mac](https://unix.stackexchange.com/questions/101561/what-are-the-differences-between-bsdtar-and-gnu-tar). If your collaborator used some Mac-specific flag, you might even need to buy a new laptop since you can't legally install Mac OS on non-apple hardware. Using python's built in [tarfile](https://docs.python.org/3/library/tarfile.html) might force you to learn a new way to untar archives, but it lets you choose the simplest possible environment management (e.g install python 3.7).
+
+## Conclusions
+
+Using code written be others can save you a lot of time, but we are generally
+better at managing our own code. Many of you diligently check in our code into
+version control systems like git, but do not at all control (or even list)
+the code that is written by third-parties. Focusing on personal-code
+management vs external-code makes sense in more stable ecosystems like
+Matlab. In such ecosystems, your personal code will change more than the
+external code, so it makes sense to devote more attention to it by learning
+git. Focusing exclusively on personal code management does not work in faster
+moving worlds like scientific Python.
+
+Managing external depencies is harder than managing personal code for a few
+reasons. First, there is infinitely more external code than personal code.
+Second, there is no single universally agreed upon dependency management
+tool. While git is a universal tool that works for all software projects,
+each language ecosystem and operating system has a different package
+manager.
+
+You should strive to capture the state of this external code in your
+personal-code management system. Git manages text files, but it doesn't
+manage all the files on your computer's hard drive. Therefore you need a tool
+to reliably build a computer from a from text file. To do this reliably, you
+need to combine installation like pip and environment management tools like
+virtualenvs. Tools that bundle these functionalities make it easier to do,
+and automation (e.g. continuous integration) ensures that your tool actually
+works.
+
+Dependency management, software development, and science are tightly coupled.
+In particular, you should minimize the number of dependencies and decouple
+your code from those dependencies. Library developers need to be particularly
+disciplined since they cannot know exactly what external code will be
+combined with their code. While application developers (e.g. someone
+performing a specific scientific analysis) can choose what external code they
+use, they do need to worry about security, licensing, and reproducibility. 
+
+In general, the software development industry is better at reproducibility
+than science because lack of scientific reproduciblity has less tangible
+cost. For example, Google will lose millions of dollars of ad revenue if they
+can't quickly recover from a crashing system, but no one will probably know
+if you can't regenerate the plots for your last paper. The scientific
+community can learn from industry, but might need to choose its science
+carefully if they want it to be reproducible.
+
+In particular, current high-performance computer environments seem inherently
+unreproducible. These are the ultimate "snowflake" machines. We give them
+that have cute names and never rebuild them from scratch, so how could we
+expect them to be isomorphic to a text file that can be checked into version
+control? This is sometimes necessary--it's not easy to "reproduce" the Large
+Hadron Collider either---but we should try to move as scientific and software
+development as possible onto reproducible systems like the cloud.
 
 # 1. Outline
 
@@ -278,3 +404,11 @@ I prefer composable tools, which don't bake in a specific directory structure or
 [^3]: As of Jan 14, 2021, binaries from Debian Bo (1.3) released in 1997 are still being [archived](https://www.debian.org/distrib/archive).
 
 [^4]: Included as of v40.3
+
+[^5]: This is true on Linux. On Mac's docker runs inside of virtual machine.
+[^6]: This applies to the dependencies of your dependecies as well. It is not uncommon for an open source project to "lie" about its license; for example, by declaring a permissive license like MIT, but having a dependency containing GPL code.
+
+[Nix]: https://nixos.org/
+
+[Conda]: https://docs.conda.io/en/latest/
+[virtualenvs]: https://docs.python.org/3/tutorial/venv.html
