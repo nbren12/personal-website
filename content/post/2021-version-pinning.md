@@ -262,10 +262,11 @@ without using more complex tools like docker.
 ## Conclusions
 
 Using code written be others can save you a lot of time, but we are generally
-better at managing our own code. Many of you diligently check in our code into
-version control systems like git, but do not at all control (or even list)
-the code that is written by third-parties. Focusing on personal-code
-management vs external-code makes sense in more stable ecosystems like
+better at managing our own code. Many of us diligently check in our code into
+version control systems like git and write automated tests, but do not
+at all control (or even list) the code that is written by third-parties.
+Focusing on personal-code management vs external-code makes sense in more
+stable ecosystems like
 Matlab. In such ecosystems, your personal code will change more than the
 external code, so it makes sense to devote more attention to it by learning
 git. Focusing exclusively on personal code management does not work in faster
