@@ -239,7 +239,7 @@ inside of a python virtualenv.
 
 If you can, choose your dependencies so that you can use the simplest
 dependency management tools.
-This often means using programming language libraries rather than command
+This often means using built-in programming language libraries rather than command
 line utilities or shell scripts. For example, suppose part of your python
 software project needs to extract files from a tar archive. Since most of us
 are most familiar with the
@@ -249,7 +249,15 @@ import subprocess
 
 subprocess.check_call(['tar', 'xf', "--exclude", "unwanted/data", "my_data])
 ```
-However, now your program depends on the system tool "tar", which [differs on Linux and Mac](https://unix.stackexchange.com/questions/101561/what-are-the-differences-between-bsdtar-and-gnu-tar). If your collaborator used some Mac-specific flag, you might even need to buy a new laptop since you can't legally install Mac OS on non-apple hardware. Using python's built in [tarfile](https://docs.python.org/3/library/tarfile.html) might force you to learn a new way to untar archives, but it lets you choose the simplest possible environment management (e.g install python 3.7).
+However, now your program depends on the system tool "tar", which [differs on
+Linux and
+Mac](https://unix.stackexchange.com/questions/101561/what-are-the-differences-between-bsdtar-and-gnu-tar).
+If your collaborator used some Mac-specific flag, you might even need to buy
+a new laptop since you can't legally install Mac OS on non-apple hardware.
+Using python's built in
+[tarfile](https://docs.python.org/3/library/tarfile.html) might force you to
+learn a new way to untar archives, but in return you get reproduciblity
+without using more complex tools like docker.
 
 ## Conclusions
 
@@ -296,12 +304,15 @@ community can learn from industry, but might need to choose its science
 carefully if they want it to be reproducible.
 
 In particular, current high-performance computer environments seem inherently
-unreproducible. These are the ultimate "snowflake" machines. We give them
-that have cute names and never rebuild them from scratch, so how could we
-expect them to be isomorphic to a text file that can be checked into version
-control? This is sometimes necessary--it's not easy to "reproduce" the Large
-Hadron Collider either---but we should try to move as scientific and software
-development as possible onto reproducible systems like the cloud.
+unreproducible. These are the ultimate "snowflake" machines. I cannot reubild
+the National Center for Atmospheric Research's [Cheyenne] super computer with
+one command line call (e.g. `pip install cheyenne==1.0.1`). This is sometimes
+necessary--it's not easy to "reproduce" the Large Hadron Collider
+either---but both the software and science can become needlessly coupled to
+these machines. This effectively limits the ability to reproduce a lot of
+science to people who have accounts on specific machines. We should try to
+move as scientific and software development as possible onto more
+reproducible and open systems like the cloud.
 
 
 [^1]: For some reason, I was not really aware of this until recently. I think part of the reason is that many of us learn software development best practices by emulating what popular libraries like xarray and scikit-learn do, and these libraries don't pin their dependencies for the reasons discussed above.
@@ -316,7 +327,7 @@ development as possible onto reproducible systems like the cloud.
 [^5]: This is true on Linux. On Mac's docker runs inside of virtual machine.
 [^6]: This applies to the dependencies of your dependecies as well. It is not uncommon for an open source project to "lie" about its license; for example, by declaring a permissive license like MIT, but having a dependency containing GPL code.
 
+[Cheyenne]: https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne
 [Nix]: https://nixos.org/
-
 [Conda]: https://docs.conda.io/en/latest/
 [virtualenvs]: https://docs.python.org/3/tutorial/venv.html
