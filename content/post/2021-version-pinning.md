@@ -301,4 +301,22 @@ that have cute names and never rebuild them from scratch, so how could we
 expect them to be isomorphic to a text file that can be checked into version
 control? This is sometimes necessary--it's not easy to "reproduce" the Large
 Hadron Collider either---but we should try to move as scientific and software
-development as possible onto more reproducible systems like the cloud.
+development as possible onto reproducible systems like the cloud.
+
+
+[^1]: For some reason, I was not really aware of this until recently. I think part of the reason is that many of us learn software development best practices by emulating what popular libraries like xarray and scikit-learn do, and these libraries don't pin their dependencies for the reasons discussed above.
+
+[^2]: This system likely won't be truly deterministic in the sense that 
+      it is bit-for-bit identical, but any changes should be non-breaking and minimal.
+
+[^3]: As of Jan 14, 2021, binaries from Debian Bo (1.3) released in 1997 are still being [archived](https://www.debian.org/distrib/archive).
+
+[^4]: Included as of v40.3
+
+[^5]: This is true on Linux. On Mac's docker runs inside of virtual machine.
+[^6]: This applies to the dependencies of your dependecies as well. It is not uncommon for an open source project to "lie" about its license; for example, by declaring a permissive license like MIT, but having a dependency containing GPL code.
+
+[Nix]: https://nixos.org/
+
+[Conda]: https://docs.conda.io/en/latest/
+[virtualenvs]: https://docs.python.org/3/tutorial/venv.html
