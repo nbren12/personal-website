@@ -27,7 +27,7 @@ image:
 #   Otherwise, set `projects = []`.
 projects: []
 ---
-Using code written by others can save a lot of time, but we are generally better at managing our own code. We diligently commit our code into version control systems like git and write automated tests, but do not at all control (or even list) the code that is written by third-parties. Focusing on personal-code management vs external-code makes sense when the external code (e.g. Matlab) changes much less frequently than your internal code. Matlab, where your personal code will change more than the external code, so it makes sense to devote more attention to it by learning git. However, an exclusive focus on managing your own code does not work in faster moving worlds like scientific Python.
+Using code written by others can save a lot of time, but we are generally better at managing our own code. We diligently commit our code into version control systems like git and write automated tests, but do not at all control (or even list) the code that is written by third-parties. Focusing on personal-code management vs external-code makes sense when the external code changes much less frequently than your internal code. When using a stable commercial product like Matlab, your personal code will likely change more than the external code, so it makes sense to devote more attention to it by learning git. However, an exclusive focus on managing your own code does not work in faster moving worlds like scientific Python.
 
 Like many newer computing platforms (e.g. Web 2.0), the scientific Python ecosystem is powerful, but there is constant churn in the underlying code ecosystem.
 Marquis packages like [pandas] and [xarray] are constantly being improved---and sometimes broken.
@@ -56,7 +56,7 @@ code released with a copyleft license like
 [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html) you may not be able to release your software with a more permissive license.[^6]
 Dependencies also harm the security of your code by
 increasing "surface-area" open to attack [^7].
-Clearly transitive dependencies need to managed as well.
+Clearly transitive dependencies need to be managed as well.
 
 # Dependency Management Strategies
 
@@ -107,22 +107,16 @@ Application developers, on the other hand, often have complete control where the
 In the scientific context, often the "application developer" writing the data analysis code and the scientific "user" are the same person.
 In the broader context, the modern Software as a Service (SaaS) provider
 usually uses a client-server architecture where the client is on a restricted
-platform (e.g. the browser, iOS, etc) and the server completely
-controlled by the service provider.
+platform (e.g. the browser, iOS, etc) and the server is completely controlled
+by the service provider.
 This, and the fact that applications are the end-users of libraries, gives
-most application developers one additional power tool. They can simply *freeze* the churning ocean of their dependencies by
-pinning or locking the versions of those libraries used. [^1]
+most application developers the power to simply *freeze* the churning ocean
+of their dependencies by pinning or locking the versions of those libraries
+used. [^1]
 
 I now turn to the tools that developers can use to manage their dependencies.
 
 ## Features for Managing Dependencies
-
-<!-- The goal of dependency pinning is to be able to deterministically recreate the software environment of an application from a text file (e.g. requirements.txt) in version control.
-Dependency management systems also allow need to allow users to update
-packages.
-Packages versions often need to be updated for security reasons or to take
-advantage of a new feature.
-Naturally, upgradeability seems at odds with version pinning, and some of the tools mentioned below take this into account. -->
 
 ### Installing Packages
 
@@ -133,7 +127,7 @@ For example,
 ```
 pip install numpy
 ```
-will install NumPy and all it's dependencies.
+will install NumPy and all its dependencies.
 
 In many cases, a single package manager might not be enough, so one will need to use the system package manager to install tools like compilers, and `pip` to install python packages. This is the problem `conda` is trying to solve, but it is not immune itself since there are still packages on PyPi that do not have anaconda packages.
 Therefore, interoperability with `pip` is important.
@@ -145,7 +139,7 @@ given package. An even more complicated problem occurs when two packages depend
 on the same library. What version of this library should they choose? Some
 package managers put great care
 into solving the dependency graph such that all version constraints advertised
-by any package in the installed set are satisfied. For instance, what if
+by any package in the installed set are satisfied. For instance, if
 package A requires package Z of version >= 1.1 and package B requires Z of
 version <=2, then the tool will install any version between 1.1 and 2. This
 feature captures some bugs and can help ensure that the APIs used are
@@ -153,8 +147,8 @@ consistent, which is why package managers like new versions of pip[^4] and conda
 constraint resolvers.
 
 Of course, sometimes packages lie, and fail to work with every version of a
-dependency that they claim to. Therefore, the process of satisfying all the
-version constraints as at best a heuristic that frequently works. Someone needs
+dependency that they claim to. The process of satisfying all the
+version constraints is only a heuristic. Someone needs
 to actually test that this set of installed versions works. You can do this via
 your own tests, but we are lucky that numerous organizations do this hard work
 for us by releasing and maintaining distributions of packages that are tested
@@ -170,22 +164,20 @@ Distribution](https://repo.anaconda.com/archive/).
 
 Most tools have the ability to print out a list of installed packages and their
 versions. For instance, one can call `pip freeze`, `conda env export`, or `apt
-list --installed` depend on your system.  Saving the output of these commands
-to a textfile, checked into version control, then ensures that our version
-control system contains a comprehensive description of our installed environment,
-which easily allows us to rollback changes or find which commits introduce
-breaking changes (e.g. using git bisect).
+list --installed` depending on your system.  Saving the output of these commands
+to a text file, checked into version control, ensures that your version
+control system contains a comprehensive description of our installed environment.
+This makes it easy to rollback any changes.
 
 #### Abstract vs concrete dependencies
 
 Modern python packaging specify concrete and abstract dependencies in
 separate files. Abstract dependencies are loose requirements like `numpy >=0.5`, which don't include specific version numbers or dependencies. These
-are easy to update, but cannot be used to deterministically recreated a
-software environment. New tools like [poetry](https://python-poetry.org/) use
-dependency resolution to compile abstract dependencies into comprehensive
-lists of dependencies with specific versions, known as a "lock" file. The
-idea that the lock file gives reproducibility, and the abstract dependencies
-give updateability.
+are easy to update, but cannot be used to deterministically recreate a
+software environment. New tools like [poetry](https://python-poetry.org/)
+resolve abstract dependencies into comprehensive lists of dependencies with
+specific versions, known as a "lock" file. The lock file gives
+reproducibility, and the abstract dependencies give updateability.
 
 No matter the tool, the workflow is the same. For instance, if you started with a clean python installation you could install the abstract requirements "numpy" and "matplotlib" with pip like this:
 ```
@@ -213,11 +205,11 @@ If you learn nothing else from this blog post, please learn to save both your ab
 
 ### Environment Management
 
-Dependencies are even harder to manage because changes to a computers
+Dependencies are even harder to manage because changes to a computer's
 installed environment cannot be easily rolled-back if something breaks. In
 other words, the software environment of the computer has "state" that cannot
-easily reproduced from a short text file, and without care, your computer
-will become a snowflake---beautiful, but unique and impossible to recreate.
+easily reproduced from a short text file. Without care your computer will
+become a snowflake---beautiful but unique and impossible to recreate.
 
 The state typically takes a few forms:
 - The contents of working memory (RAM) (e.g. environmental variables like PATH)
@@ -225,19 +217,21 @@ The state typically takes a few forms:
 - Services over TCP ports (e.g. running a database or webserver).
 - Connections with the operating system kernel
 
-Restarting a computer is such a powerful debugging tool because it removes a
-large amount of state stored in the RAM of your computer. However, it is not
-easy to rollback modifications to persistent state such as the contents of
-`/usr/bin`. For this reason, tools that prevent the accumulation of this state are
-increasingly bundled with package managers. 
+Restarting a computer fixes so many problems because it removes a large
+amount of state stored in the RAM of your computer. However, it is not easy
+to rollback modifications to persistent state such as the contents of
+`/usr/bin`. For this reason, tools that prevent the accumulation of this
+state are increasingly bundled with package managers.
 
 Generally, these take two approaches. The more common approach isolates the
 installed environment of an application to a sub-environment which can easily
-be deleted and re-built if something goes wrong. For python-only projects,
+be deleted and re-built if something goes wrong. For Python projects,
 [virtualenvs] are the standard way to create such isolated environments.
 [conda] extends the virtualenv concept to include non-python dependencies
 while docker containers[^5] and virtual machines create entirely isolated
-computers-within-a computer. Taken to extreme, you might need to buy a new super-computer and rehire the now-retired sysadmin to replicate your collaborators' environment. 
+computers-within-a computer. Taken to extreme, you might need to buy a new
+super-computer and rehire the now-retired sysadmin to replicate your
+collaborator's environment.
 
 "Functional" package managers like [Nix] prevent the accumulation of system
 state, by making it "immutable". For instance, instead of installing `rsync`
@@ -248,19 +242,19 @@ which guarantees that this location will be unique. For example, a new
 version of rsync will result in a different hash and new installation
 location.
 
-Environmental Management tools are only useful if they can be readily and
-easily recreated. When did you last do this? If it was a long time ago, your
-development is probably not very reproducible. Ideally, this should happen
-automatically on a regular basis. You could use continuous integration or
-simply delete your local conda environment on a weekly basis. For this to be
+Environment management tools are only useful if they can be readily and
+easily recreated. When did you last time you installed all dependencies from
+scratch? If it was a long time ago, your development is probably not very
+reproducible. Ideally, this should happen automatically on a regular basis.
+You could use continuous integration or simply delete your local conda
+environment on a weekly basis. For this to be
 convenient, you will need to automate the installation procedure by writing some text files that describe and build your software environment.
 
 It is easier to do this when you use tools like docker that couple
 environment creating process with the application build/testing cycle. For
-pure python projects, I recommend testing your project regularly with
-[tox](https://tox.readthedocs.io/en/latest/) forces you to run your tests
-inside of a python virtualenv.
-
+pure Python projects, I recommend testing your project regularly with
+[tox](https://tox.readthedocs.io/en/latest/), a tool which creates virtual
+environments and runs tests within them.
 
 ## Conclusions
 
@@ -268,11 +262,10 @@ You should strive to capture the state of all the code you use in your
 personal-code management system. External dependencies are code too, but are
 harder to manage than personal code. Git manages text files, but it doesn't
 manage all the files on your computer's hard drive or the internet. Therefore
-you need a tool to reliably build your programs execution environment from a
-text file. To do this reliably, you need to combine installation like
-pip and environment management tools like virtualenvs. Tools that bundle
-these functionalities make it easier to do, and automation (e.g. continuous
-integration) ensures that your tool actually works.
+you need a tool to reliably build your program's execution environment from a
+text file. Tools that bundle package and environment management features make
+this easier to do, and automation (e.g. continuous integration) ensures that
+your tool actually works.
 
 Dependency management, software development, and science are tightly coupled.
 In particular, you should minimize the number of dependencies and decouple
