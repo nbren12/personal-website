@@ -68,6 +68,7 @@ strategies used to build robust personal code can also be used for
 other people's code.
 
 Any software project can be made more robust by
+
 1. being simpler (e.g. reducing the number of things it does/number of dependencies)
 2. widely reusing only dependable/stable code (e.g. avoid v0.1.0 libraries)
 3. loose coupling (e.g. avoid call `np.xxxx` in 1000 places). 
@@ -212,6 +213,7 @@ easily reproduced from a short text file. Without care your computer will
 become a snowflake---beautiful but unique and impossible to recreate.
 
 The state typically takes a few forms:
+
 - The contents of working memory (RAM) (e.g. environmental variables like PATH)
 - Contents of the hard drive (e.g. installed libraries and applications)
 - Services over TCP ports (e.g. running a database or webserver).
