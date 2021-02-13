@@ -296,3 +296,4 @@ use, they do need to worry about security, licensing, and reproducibility.
 [virtualenvs]: https://docs.python.org/3/tutorial/venv.html
 [pandas]: https://pandas.pydata.org/
 [xarray]: http://xarray.pydata.org/en/stable/
+[scikit-image]: https://scikit-image.org/
