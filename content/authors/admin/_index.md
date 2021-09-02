@@ -67,15 +67,7 @@ icon_pack = "ai"
 link = "files/cv.pdf"
 +++
 
-Noah Brenowitz is a Senior Machine Learning Scientist for Climate Modeling at Vulcan Inc.. He was a Moore/Sloan & WRF Innovation in Data Science Postdoctoral Fellow at the University of Washington (UW) and is jointly mentored by Christopher Bretherton in Atmospheric Science and Nathan Kutz in Applied Mathematics. In 2011, he received his BS degree in Statistics from the Stern School of Business at New York University (NYU). After one year as a postbaccalaureate trainee at the National Institutes of Health (NIH) working on functional MRI, he began a Ph.D. in Atmosphere-ocean Science and Mathematics at NYUs Courant Institute of Mathematics with Andrew Majda as his advisor and recently graduated in May 2017.
-
-Noah's research lies at the intersection of applied mathematics, machine learning, and atmospheric science. He is interested in applying machine learning techniques to improve the representation of sub-grid-scale processes in coarse resolution atmospheric models. In addition, he also studies the fundamental dynamics behind the organization of large-scale moist convective processes in the tropics.
-
+Noah Brenowitz is the Senior Machine Learning Scientist for Climate Modeling at the Allen Institute for Artificial Intelligence. He is a Seattle native and attended the Bush School for high school. He completed a PhD in 2017 in Atmospheric-ocean Science and Mathematics at NYU’s Courant Institute of Mathematical Sciences with Andrew Majda as his Advisor. While there he developed a strong background in applied mathematics. Since then he has focused on improving climate models with machine learning with Christopher Bretherton, first as a Moore/Sloan & WRF Innovation in Data Science Postdoctoral Fellow at the University of Washington (UW) and then later as a Sr. Scientist at Vulcan. Noah has led the publication of several foundational papers in this burgeoning field. He enjoys spending his free-time in the beautiful mountains of the Pacific Northwest during all seasons of the year.
 
 
 His Curriculum Vitae is available [here](files/cv.pdf).
-
-[Research Wiki](http://wiki.noahbrenowitz.com/doku.php).
-
-[Research Reports](https://atmos.washington.edu/~nbren12/reports/)
-
