@@ -23,12 +23,12 @@ preview = true
 **Please see the github library based on this blog post:
 https://github.com/nbren12/call_py_fort.
 I have gotten many emails about small bugs and environment/compiling issues
-with the code samples in this blog post which would be easier and more
-fruitful to address as github issues. The github project has tests, a cmake
-build system, and an issue tracker so is a better venue for that kind of question.
-This blog post is mostly useful for folks who want to understand the
-implementation of `call_py_fort` and/or recode it from scratch. I
-unfortunately cannot help much with the latter.**
+with the code samples in this blog post that are hard for me to help with.
+I want to help you use python from fortran! But it is much easier for me to do
+this on the github project, which has tests, a cross platform build system, and
+an issue tracker.  If you just want to learn about the implementation and
+motivation please read ahead...but if you want to use this in a project, check out the
+github repo.**
 
 
 Python is increasingly becoming the lingua-franca of the machine learning community. Venerable packages like scikit-learn, tensorflow, and pytorch mainly target python users. On the other hand, climate models are typically written in Fortran, for better or worse. How then should we move our python-based machine learning components into the Fortran model? The typical data-sciency answer to this would involve wrapping machine learning method with an HTTP API, perhaps using Flask, but HTTP is probably too slow to use practically within a tightly coupled system like a climate model. Therefore, the alternative would be to call python directly from Fortran, passing the state of the climate model through RAM rather than a high-latency communication layer like HTTP.
