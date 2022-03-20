@@ -1,9 +1,8 @@
 ---
 
-title: "Loading netCDFs in tensorflow"
+title: "Loading netCDFs in TensorFlow"
 subtitle: ""
 summary: ""
-authors: []
 tags: []
 categories: []
 date: 2022-03-20T12:27:08-07:00
@@ -27,19 +26,23 @@ image:
 projects: []
 ---
 
-netCDF is binary file format that is ubiquitous in the geosciences. While it may not be widely known in other domains it has several advantages. Most importantly it can efficiently store large amounts of data and is self-describing. In my opinion, netCDF is as close to plain text as binary data can get in terms of universality. Seeing the contents of a dataset on a high level requires a simple call to a CLI `ncdump -h`. This makes it a perfect format for sharing climate simulation outputs, weather data, etc.
+[NetCDF](https://www.unidata.ucar.edu/software/netcdf/) is ubiquitous binary data format in the geosciences. While it may not be widely known in other domains it has several advantages. Most importantly it can efficiently store large amounts of data and is self-describing. In my opinion, NetCDF is as close to plain text as binary data can get in terms of universality. Seeing the contents of a dataset on a high level requires a simple call to a CLI `ncdump -h`. This makes it a perfect format for sharing climate simulation outputs, weather data, etc.
 
-Unfortunately, netCDF is not natively supported by tensorflow...and a lot of us use tensorflow. So what are we to do?
+Unfortunately, TensorFlow does not natively support NetCDF. So what are we to do?
 
-In this post, I benchmark several ways of loading a dataset from netCDF. The goal is not to demonstrate a feature complete solution, but to introduce a range of methods and rigoroulous compare their performance. Perhaps surprisingly, netCDF is a perfectly acceptable format for training ML models and may outperform some "native" tensorflow formats.
+In this post, I benchmark several ways of loading a dataset from NetCDF. The goal is not to demonstrate a feature-complete solution, but to introduce a range
+of methods and rigorously compare their performance. Perhaps surprisingly, I
+show that NetCDF is a perfectly acceptable format for training ML models and may
+outperform some "native" TensorFlow formats.
 
 ## Benchmarks
 
-The benchmarks load a folder of similarly sized netCDF files into a `tf.data.Dataset` object that can be used to e.g. train a tensorflow model. Geoscientists often want to train tensorflow models with this kind of data. Each file contains a single vector "a", which contains many samples.
+Geoscientists often start a machine learning project with a folder of NetCDFS, so I will benchmark a similar task: load a folder of NetCDFs into `tf.data.Dataset` object and iterate through all the samples to mimic one epoch of a machine learning training loop.
+For simplicity, each NetCDF file contains a single variable "a".
 
-For a dataset of a given size, a key question is how many files should we divide it into to achieve good performance. If the file size is too large (e.g. multiple GB) then it can be unwieldy to inspect and experiment with especially if it is stored in cloud storage. OTOH, opening up many 1000s of tiny files is sure way to bog down any ML training. 
+For a dataset of a given size, a key question is how many files should we divide it into to achieve good performance. If the file size is too large (e.g. multiple GB) then it can be unwieldy to inspect and experiment with especially if it is stored in cloud storage. OTOH, opening up many 1000s of tiny files is sure to bog down any ML training. 
 
-To set up these experiments, here `save_dirs` function divides an artificial dataset of a certain size into many netCDFs of a certain size. Each netCDF contains a vector of random values "a".
+To set up these experiments, here `save_dirs` function divides an artificial dataset of a certain size into many NetCDFs of a certain size. Each NetCDF contains a vector of random values "a".
 
 
 ```python
@@ -89,9 +92,9 @@ Here are the versions of the libraries that I used:
     netCDF4: 1.5.8
 
 
-I will use this to compare several different ways of opening netCDF files in tensorflow. As with most things in tensorflow, there are at least 3-4 different ways to skin the cat of loading netCDF files. Tensorflow's preferred native datastructure for an iterable dataset of samples is `tf.data.Dataset`. This data structure can be fed to keras models.
+I will use this to compare several different ways of opening NetCDF files in TensorFlow. As with most things in TensorFlow, there are at least 3-4 different ways to skin the cat of loading NetCDF files. TensorFlow's preferred native data structure for an iterable dataset of samples is `tf.data.Dataset`. This data structure can be fed to keras models.
 
-First, I define some ways to open netCDF data:
+First, I define some ways to open NetCDF data:
 
 
 ```python
@@ -124,24 +127,24 @@ def load_nc_dir_with_map_and_xarray(dir_):
 
 ```
 
-As you can see, these routines call some non-tensorflow functions before instantiating the dataset object. This custom logic will be harder to parallelize or train on e.g. TPUs. The first solution `load_nc_with_generator` is perhaps the simplest, we first define a generator which opens each netCDF and converts its contents to a dictionary of tf.Tensor objects. Because the generator is sequential, we won't be able to parallelize it easily, although we could potentially us `tf.data.Dataset.prefetch` to load results ahead of time. For the reason, I implemented a version `load_nc_dir_with_map_and_xarray` that uses `tf.data.Dataset.map`, which is a potentially parallelizable operation.
+As you can see, these routines call some non-TensorFlow functions before instantiating the dataset object. This custom logic will be harder to parallelize or train on e.g. TPUs. The first solution `load_nc_with_generator` is perhaps the simplest, we first define a generator that opens each NetCDF and converts its contents to a dictionary of tf.Tensor objects. Because the generator is sequential, we won't be able to parallelize it easily, although we could potentially us `tf.data.Dataset.prefetch` to load results ahead of time. For the reason, I implemented a version `load_nc_dir_with_map_and_xarray` that uses `tf.data.Dataset.map`, which is a potentially parallelizable operation.
 
-Both methods require specifying the "schema" of the data. By schema, I mean the names, dtypes and shapes of the arrays contain in the netCDF. This is a key challenge with using the `tf.data.Dataset` object, and one reason why tensorflow's [documentation on tfRecords](https://www.tensorflow.org/tutorials/load_data/tfrecord) is so byzantine and hard to read. This is where a self-describing format like netCDF shines. The schema can be inferred from the data itself as we do when creating the `tf.TensorSpec` object in `load_nc_dir_with_generator`. I was lazy, so I didn't bother with this in `load_nc_dir_with_map_and_xarray`, and just hardcoded the name `"a"` and data type `tf.float64` for the sake of simplicity.
+Both methods require specifying the "schema" of the data. By schema, I mean the names, dtypes, and shapes of the arrays contained in the NetCDF. This is a key challenge with using the `tf.data.Dataset` object, and one reason why TensorFlow's [documentation on tfRecords](https://www.tensorflow.org/tutorials/load_data/tfrecord) is so byzantine and hard to read. This is where a self-describing format like NetCDF shines. The schema can be inferred from the data itself as we do when creating the `tf.TensorSpec` object in `load_nc_dir_with_generator`. I was lazy, so I didn't bother with this in `load_nc_dir_with_map_and_xarray`, and just hardcoded the name `"a"` and data type `tf.float64` for the sake of simplicity.
 
-In any case, netCDF data is easy to get the schema for, but is not "native" to tensorflow. By "native", I mean methods that are built into tensorflow's graph like the functions in `tf.io`. These are usually backed by fast C-code and can be deployed easily in a variety of contexts including on TPUs. We might expect native formats to outperform netCDF.
+In any case, NetCDF data is easy to get the schema for but is not native to TensorFlow. By native, I mean methods that are built into TensorFlow's graph like the functions in `tf.io`. These are usually backed by fast C-code and can be deployed easily in a variety of contexts including on TPUs. We might expect native formats to outperform NetCDF.
 
-To see if this is true, I also benchmark routines which load the following tensorflow-native formats:
+To see if this is true, I also benchmark routines which load the following TensorFlow-native formats:
 - tfrecord
 - the format saved by `tf.data.experimental.save`
 
-The following to functions first transform the netCDFs to the tensorflow native format, saving the result to disk. Then, they open this data using standard tensorflow I/O connectors.
+The following two functions first transform the NetCDFs to the TensorFlow native format, saving the result to disk. Then, they open this data using standard TensorFlow I/O connectors.
 
 
 ```python
 def load_nc_dir_cached_to_tfrecord(dir_):
     """Save data to tfRecord, open it, and deserialize
     
-    Note that tfrecords are actually not that complicated! The simply store some
+    Note that tfrecords are not that complicated! The simply store some
     bytes, and you can serialize data into those bytes however you find
     convenient. In this case, I serialie with `tf.io.serialize_tensor` and 
     deserialize with `tf.io.parse_tensor`. No need for `tf.train.Example` or any
@@ -165,7 +168,7 @@ def load_nc_dir_after_save(dir_):
 
 
 
-If there weren't enough ways to save `tf.data.Dataset`s to disk, they also have a `.cache` feature. This can either cache the data to disk or memory. Of course, the on-disk format saved by `.cache` is completely undocumented, but maybe that's a good thing given my experience with tensorflow documentation 😉. Here are two functions that cache to disk and memory:
+If there weren't enough ways to save `tf.data.Dataset`s to disk, they also have a `.cache` feature. This can either cache the data to disk or memory. Of course, the on-disk format saved by `.cache` is completely undocumented, but maybe that's a good thing given my experience with TensorFlow documentation 😉. Here are two functions that cache to disk and memory:
 
 
 ```python
@@ -183,7 +186,7 @@ def load_nc_dir_cache_to_mem(dir_):
     return cached
 ```
 
-Finally, we compare all the above against a method which simply reads the raw bytes from the netCDF files into memory. This is an upper bound on the speed of data loading since it has no serialization/de-serialization overhead.
+Finally, we compare all the above against a method that simply reads the raw bytes from the NetCDF files into memory. This is an upper bound on the speed of data loading since it has no serialization/de-serialization overhead.
 
 
 ```python
@@ -265,15 +268,15 @@ px.bar(plotme, x="variable", y=ylabel, color="file_size", barmode="group", log_y
 
 The plots above show throughput (higher is better).
 
-We can see that the methods with writing custom loaders (map, generator) are very slow for small file sizes...but competitive for larger size. These examples were serial...so the tensorflow native formats (tf_data_save a nd tfrecrod) may become more competitive with proper parallelization.
+We can see that the methods with writing custom loaders (map, generator) are very slow for small file sizes...but competitive for larger sizes. These examples were serial...so the TensorFlow native formats (tf_data_save and tfrecord) may become more competitive with proper parallelization.
 
-The bytes only dataset is a good comparison. It is an upper bound on how fast data can be read from a given file...this suggests that the map/generator lose their time converting bytes to tensors rather than reading bytes from disk. The serialization overhead is large for small files.
+The bytes-only dataset is a good comparison. It is an upper bound on how fast data can be read from a given file...suggesting that the NetCDF-reading approaches (map and generator) lose time converting bytes to tensors rather than reading bytes from disk. The serialization overhead is large for small files.
 
-Clearly preloading a dataset in memory (cache_mem) greatly increases the throughput....but caching on disk is fast too, and only requires one extra line of code. In practice, we have found that using `.cache` can lead to hard-to-debug memory leaks when training certain architectures, so YMMV.
+Preloading a dataset in memory (cache_mem) greatly increases the throughput....but caching on disk is fast too, and only requires one extra line of code. In practice, we have found that using `.cache` can lead to hard-to-debug memory leaks when training certain architectures, so YMMV.
 
 ## Speed of deserializing a record
 
-Much of the overhead of opening small netCDFs comes not from loading from disk, but from decoding the loaded bytes. 
+Much of the overhead of opening small NetCDFs comes not from loading from disk, but from decoding the loaded bytes. 
 
 Just how slow is this process? This code loads the raw bytes from a single 256 kb and times how long it takes to decode into a tensor:
 
@@ -294,7 +297,7 @@ def open_bytes(bytes_tensor: tf.Tensor):
     1000 loops, best of 5: 2.15 ms per loop
 
 
-For this small amount of data, this process is MUCH slower than tensorflow's builtin `tf.io.parse_tensor` routine:
+For this small amount of data, this process is MUCH slower than TensorFlow's builtin `tf.io.parse_tensor` routine:
 
 
 ```python
@@ -308,13 +311,13 @@ bytes_tensor = tf.io.serialize_tensor(tf.convert_to_tensor(ds))
     10000 loops, best of 5: 82.3 µs per loop
 
 
-So basically, opening many tiny netCDF files will be quite slow.
+So basically, opening many tiny NetCDF files will be quite slow.
 
 # Conclusions
 
-In conclusion, netCDF is a perfectly suitable format for feeding a tensorflow format. It is self-describing and performs as well or better than "tensorflow-native" formats like tfRecords or `tf.data.experimental.save` provided the data is chunked into netCDF files containing at least a few MB of data. In practice, I have easily able to saturate a GPU when training from netCDF data. At the same time, I can open the data and analyze it using familiar tools, and I could easily share it with colleagues.
+In conclusion, NetCDF is a perfectly suitable format for feeding a TensorFlow format. It is self-describing and performs as well or better than "TensorFlow-native" formats like tfRecords or `tf.data.experimental.save` provided the data is chunked into NetCDF files containing at least a few MB of data. In practice, I have easily saturated a GPU when training from NetCDF data. At the same time, I can open the data and analyze it using familiar tools, and I could easily share it with colleagues.
 
-Note that all the benchmarks here were single-threaded, and didn't explore some of the more advanced `tf.data.Dataset` features such a parallel data loading or prefetching.
-Moreover, because netCDF I/O connectors require custom python code and dependencies, they cannot be as easily used in many standard cloud ML environments and cannot be integrated with more exotic performance optimizations like running on TPUs.
+Note that all the benchmarks here were single-threaded, and didn't explore some of the more advanced `tf.data.Dataset` features such as parallel data loading or prefetching.
+Moreover, because NetCDF I/O connectors require custom python code and dependencies, they cannot be as easily used in many standard cloud ML environments and cannot be integrated with more exotic performance optimizations like running on TPUs.
 If you value these things, then it may make sense to roll your own custom serialization/deserialization logic and save the result to tfRecords.
-I plan to show how to do this with [tensorflow datasets](https://www.tensorflow.org/datasets) in a future post.
+I plan to show how to do this with [TensorFlow datasets](https://www.tensorflow.org/datasets) in a future post.
