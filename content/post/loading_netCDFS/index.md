@@ -1,6 +1,6 @@
 ---
 
-title: "Loading netCDFs in TensorFlow"
+title: "Loading NetCDFs in TensorFlow"
 subtitle: ""
 summary: ""
 tags: []
