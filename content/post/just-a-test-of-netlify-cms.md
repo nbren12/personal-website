@@ -2,7 +2,6 @@
 title: Just a test of netlify cms
 date: 2022-03-20T22:16:50.464Z
 description: just a blah
-image: null
 ---
 testing testing.
 
