@@ -26,7 +26,7 @@ image:
 projects: []
 ---
 
-[NetCDF](https://www.unidata.ucar.edu/software/netcdf/) is ubiquitous binary data format in the geosciences. While it may not be widely known in other domains it has several advantages. Most importantly it can efficiently store large amounts of data and is self-describing. In my opinion, NetCDF is as close to plain text as binary data can get in terms of universality. Seeing the contents of a dataset on a high level requires a simple call to a CLI `ncdump -h`. This makes it a perfect format for sharing climate simulation outputs, weather data, etc.
+[NetCDF](https://www.unidata.ucar.edu/software/netcdf/) is a ubiquitous binary data format in the geosciences. While it may not be widely known in other domains it has several advantages. Most importantly it can efficiently store large amounts of data and is self-describing. In my opinion, NetCDF is as close to plain text as binary data can get in terms of universality. Seeing the contents of a dataset on a high level requires a simple call to a CLI `ncdump -h`. This makes it a perfect format for sharing climate simulation outputs, weather data, etc.
 
 Unfortunately, TensorFlow does not natively support NetCDF. So what are we to do?
 
