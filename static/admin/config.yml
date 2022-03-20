@@ -12,3 +12,11 @@ collections: # A list of collections the CMS should be able to edit
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Body", name: "body", widget: "markdown"}
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Bio"
+        name: "bio"
+        file: "content/authors/admin/_index.md"
+        fields:
+          - {label: Body, name: body, widget: "markdown"}
