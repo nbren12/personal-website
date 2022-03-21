@@ -316,7 +316,7 @@ So basically, opening many tiny NetCDF files will be quite slow.
 
 # Conclusions
 
-In conclusion, NetCDF is a perfectly suitable format for feeding a TensorFlow format. It is self-describing and performs as well or better than "TensorFlow-native" formats like tfRecords or `tf.data.experimental.save` provided the data is chunked into NetCDF files containing at least a few MB of data. In practice, I have easily saturated a GPU when training from NetCDF data. At the same time, I can open the data and analyze it using familiar tools, and I could easily share it with colleagues.
+In conclusion, NetCDF is a perfectly suitable format for feeding a TensorFlow training pipeline. It is self-describing and performs as well or better than "TensorFlow-native" formats like tfRecords or `tf.data.experimental.save` provided the data is chunked into NetCDF files containing at least a few MB of data. In practice, I have easily saturated a GPU when training from NetCDF data. At the same time, I can open the data and analyze it using familiar tools, and I could easily share it with colleagues.
 
 Note that all the benchmarks here were single-threaded, and didn't explore some of the more advanced `tf.data.Dataset` features such as parallel data loading or prefetching.
 Moreover, because NetCDF I/O connectors require custom python code and dependencies, they cannot be as easily used in many standard cloud ML environments and cannot be integrated with more exotic performance optimizations like running on TPUs.
