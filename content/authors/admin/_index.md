@@ -35,11 +35,11 @@ interests = [
  
 email = "noahb@vulcan.com"
 
-role = "Sr. Machine Learning Scientist"
+role = "Sr. Research Scientist"
 
 [[organizations]]
-name = "Climate Modeling | Vulcan Inc."
-url = "https://www.vulcan.com"
+name = "Climate Modeling | Allen Institute for AI"
+url = "https://allenai.org/climate-modeling"
 
 [[social]]
 icon = "envelope"
