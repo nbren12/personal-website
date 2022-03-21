@@ -127,13 +127,14 @@ def load_nc_dir_with_map_and_xarray(dir_):
 
 ```
 
-As you can see, these routines call some non-TensorFlow functions before instantiating the dataset object. This custom logic will be harder to parallelize or train on e.g. TPUs. The first solution `load_nc_with_generator` is perhaps the simplest, we first define a generator that opens each NetCDF and converts its contents to a dictionary of tf.Tensor objects. Because the generator is sequential, we won't be able to parallelize it easily, although we could potentially us `tf.data.Dataset.prefetch` to load results ahead of time. For the reason, I implemented a version `load_nc_dir_with_map_and_xarray` that uses `tf.data.Dataset.map`, which is a potentially parallelizable operation.
+As you can see, these routines call some non-TensorFlow functions before instantiating the dataset object. This custom logic will be harder to parallelize or train on e.g. TPUs. The first solution `load_nc_with_generator` is perhaps the simplest, we first define a generator that opens each NetCDF and converts its contents to a dictionary of tf.Tensor objects. Because the generator is sequential, we won't be able to parallelize it easily, although we could potentially us `tf.data.Dataset.prefetch` to load results ahead of time. For this reason, I implemented a version `load_nc_dir_with_map_and_xarray` that uses `tf.data.Dataset.map`, which is a potentially parallelizable operation.
 
 Both methods require specifying the "schema" of the data. By schema, I mean the names, dtypes, and shapes of the arrays contained in the NetCDF. This is a key challenge with using the `tf.data.Dataset` object, and one reason why TensorFlow's [documentation on tfRecords](https://www.tensorflow.org/tutorials/load_data/tfrecord) is so byzantine and hard to read. This is where a self-describing format like NetCDF shines. The schema can be inferred from the data itself as we do when creating the `tf.TensorSpec` object in `load_nc_dir_with_generator`. I was lazy, so I didn't bother with this in `load_nc_dir_with_map_and_xarray`, and just hardcoded the name `"a"` and data type `tf.float64` for the sake of simplicity.
 
 In any case, NetCDF data is easy to get the schema for but is not native to TensorFlow. By native, I mean methods that are built into TensorFlow's graph like the functions in `tf.io`. These are usually backed by fast C-code and can be deployed easily in a variety of contexts including on TPUs. We might expect native formats to outperform NetCDF.
 
 To see if this is true, I also benchmark routines which load the following TensorFlow-native formats:
+
 - tfrecord
 - the format saved by `tf.data.experimental.save`
 
