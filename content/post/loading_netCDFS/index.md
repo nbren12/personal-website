@@ -25,7 +25,7 @@ outperform some "native" TensorFlow formats.
 
 ## Benchmarks
 
-Geoscientists often start a machine learning project with a folder of NetCDFS, so I will benchmark a similar task: load a folder of NetCDFs into `tf.data.Dataset` object and iterate through all the samples to mimic one epoch of a machine learning training loop.
+Geoscientists often start a machine learning project with a folder of NetCDFs, so I will benchmark a similar task: load a folder of NetCDFs into `tf.data.Dataset` object and iterate through all the samples to mimic one epoch of a machine learning training loop.
 For simplicity, each NetCDF file contains a single variable "a".
 
 For a dataset of a given size, a key question is how many files should we divide it into to achieve good performance. If the file size is too large (e.g. multiple GB) then it can be unwieldy to inspect and experiment with especially if it is stored in cloud storage. OTOH, opening up many 1000s of tiny files is sure to bog down any ML training. 
@@ -111,7 +111,7 @@ def load_nc_dir_with_map_and_xarray(dir_):
         )
 ```
 
-As you can see, these routines call some non-TensorFlow functions before instantiating the dataset object. This custom logic will be harder to parallelize or train on e.g. TPUs. The first solution `load_nc_with_generator` is perhaps the simplest, we first define a generator that opens each NetCDF and converts its contents to a dictionary of tf.Tensor objects. Because the generator is sequential, we won't be able to parallelize it easily, although we could potentially us `tf.data.Dataset.prefetch` to load results ahead of time. For this reason, I implemented a version `load_nc_dir_with_map_and_xarray` that uses `tf.data.Dataset.map`, which is a potentially parallelizable operation.
+As you can see, these routines call some non-TensorFlow functions before instantiating the dataset object. This custom logic will be harder to parallelize or train on e.g. TPUs. The first solution `load_nc_with_generator` is perhaps the simplest, we first define a generator that opens each NetCDF and converts its contents to a dictionary of tf.Tensor objects. Because the generator is sequential, we won't be able to parallelize it easily, although we could potentially use `tf.data.Dataset.prefetch` to load results ahead of time. For this reason, I implemented a version `load_nc_dir_with_map_and_xarray` that uses `tf.data.Dataset.map`, which is a potentially parallelizable operation.
 
 Both methods require specifying the "schema" of the data. By schema, I mean the names, dtypes, and shapes of the arrays contained in the NetCDF. This is a key challenge with using the `tf.data.Dataset` object, and one reason why TensorFlow's [documentation on tfRecords](https://www.tensorflow.org/tutorials/load_data/tfrecord) is so byzantine and hard to read. This is where a self-describing format like NetCDF shines. The schema can be inferred from the data itself as we do when creating the `tf.TensorSpec` object in `load_nc_dir_with_generator`. I was lazy, so I didn't bother with this in `load_nc_dir_with_map_and_xarray`, and just hardcoded the name `"a"` and data type `tf.float64` for the sake of simplicity.
 
@@ -216,17 +216,17 @@ for kb in kb_range:
 
 Finally, here are the results:
 
-<!-- \`\`\`python
+<!-- \\`\\`\\`python
 import pandas as pd
 df = pd.DataFrame.from_records(timings).T
 df.index.name = "file_size_mb"
 throughput = total_size / (df / 2) / mb
-plotme = pd.melt(throughput.reset_index(), id_vars=\["file_size_mb"])
-plotme\["file_size"] = plotme.file_size_mb.apply(lambda x: f"{x} kb")
+plotme = pd.melt(throughput.reset_index(), id_vars=\\["file_size_mb"])
+plotme\\["file_size"] = plotme.file_size_mb.apply(lambda x: f"{x} kb")
 ylabel="throughpout (mb/s)"
-plotme\[ylabel] = plotme.value
+plotme\\[ylabel] = plotme.value
 
-wong_palette = \[
+wong_palette = \\[
     "#000000",
     "#E69F00",
     "#56B4E9",
@@ -238,7 +238,7 @@ wong_palette = \[
 ]
 px.defaults.color_discrete_sequence = wong_palette
 px.bar(plotme, x="variable", y=ylabel, color="file_size", barmode="group", log_y=True)
-\`\`\` -->
+\\`\\`\\` -->
 
 ![](/img/3049226cd6696d4b789f915874fefe64-netcdf-benchmark.png)
 
