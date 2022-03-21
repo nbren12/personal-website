@@ -33,7 +33,7 @@ interests = [
   institution = "New York University"
   year = 2011
  
-email = "noahb@vulcan.com"
+email = "noahb@allenai.org"
 
 role = "Sr. Research Scientist"
 
