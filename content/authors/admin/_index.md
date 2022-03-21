@@ -44,7 +44,7 @@ url = "https://allenai.org/climate-modeling"
 [[social]]
 icon = "envelope"
 icon_pack = "fas"
-link = "mailto:noahb@vulcan.com"
+link = "mailto:noahb@allenai.org"
 
 [[social]]
 icon = "twitter"
