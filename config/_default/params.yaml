@@ -64,20 +64,20 @@ features:
     theme_light: github-light
     theme_dark: dracula
   math:
-    enable: false
+    enable: true
   privacy_pack:
     enable: false
   repository:
-    url: 'https://github.com/<username>/<repository>'
+    url: 'https://github.com/nbren12/personal-website'
     content_dir: content
     branch: main
   avatar:
     gravatar: false
     shape: circle
   comment:
-    provider: 'disqus'
+    provider: disqus
     disqus:
-      shortname: 'noahbrenowitz-com'
+      shortname: noahbrenowitz-com
       show_count: true
     commento:
       url: ''
