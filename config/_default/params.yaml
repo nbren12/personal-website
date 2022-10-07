@@ -78,7 +78,7 @@ features:
     provider: disqus
     disqus:
       shortname: noahbrenowitz-com
-      show_count: true
+      show_count: false
     commento:
       url: ''
     giscus:
