@@ -32,7 +32,7 @@ module:
 # enable comments on all sites
 cascade:
   - _target:
-      path: post/**
+      path: post/**/*
     commentable: true
 
 enableGitInfo: false

@@ -17,6 +17,7 @@ categories = []
 
 caption = ""
 preview = true
+commentable = true
 
 +++
 
