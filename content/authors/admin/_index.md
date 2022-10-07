@@ -44,7 +44,3 @@ weight: 1
 Noah Brenowitz is a Senior Research Scientist at NVIDIA.
 He completed a PhD in 2017 in Atmospheric-ocean Science and Mathematics at NYU’s Courant Institute of Mathematical Sciences with Andrew Majda as his Advisor. While there he developed a strong background in applied mathematics. Since then he has focused on improving climate models with machine learning with Christopher Bretherton, first as a Moore/Sloan & WRF Innovation in Data Science Postdoctoral Fellow at the University of Washington (UW) and then later at Vulcan and AI2.
 Noah has led the publication of several foundational papers in this burgeoning field. He enjoys spending his free-time in the beautiful mountains of the Pacific Northwest during all seasons of the year.
-
-
-
-His Curriculum Vitae is available [here](files/cv.pdf).
