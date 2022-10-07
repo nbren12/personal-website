@@ -29,6 +29,11 @@ module:
 ############################
 ## ADVANCED
 ############################
+# enable comments on all sites
+cascade:
+  - _target:
+      path: post/**
+    commentable: true
 
 enableGitInfo: false
 summaryLength: 30
