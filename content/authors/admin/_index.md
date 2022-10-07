@@ -1,7 +1,7 @@
 ---
 organizations:
-  - name: Climate Modeling | Allen Institute for AI
-    url: https://allenai.org/climate-modeling
+  - name: NVIDIA
+    url: https://www.nvidia.com/
 draft: false
 widget: about
 superuser: true
