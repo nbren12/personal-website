@@ -25,7 +25,7 @@ interests:
 social:
   - icon: envelope
     icon_pack: fas
-    link: mailto:noahb@allenai.org
+    link: mailto:nbren12@gmail.com
   - icon: twitter
     icon_pack: fab
     link: https://twitter.com/noahbrenowitz
